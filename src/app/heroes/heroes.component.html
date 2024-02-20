@@ -1,0 +1,27 @@
+<h2>My Heroes</h2>
+
+<div class="container">
+  <form (ngSubmit)="addHero(id, name)">
+      <div class="row">
+        <label>ID:  </label>
+        <input name="id" [(ngModel)]="id">
+      </div>
+      <div class="row">
+        <label>Name:  </label>
+        <input name="name" [(ngModel)]="name">
+      </div>
+      <div class="row">
+        <button type="submit"> Add </button>
+      </div>
+  </form>
+</div>
+
+<ul class="heroes">
+  <li *ngFor="let hero of Heroes">
+    <a routerLink="/detail/{{hero.id}}">
+      <span class="badge">{{hero.id}}</span> {{hero.name}}
+    </a>
+    <!-- <button class="delete" title="delete hero"
+      (click)="delete(hero)">x</button> -->
+  </li>
+</ul>
