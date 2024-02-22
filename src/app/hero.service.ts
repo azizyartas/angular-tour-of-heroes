@@ -6,7 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Hero } from './hero';
 import { MessageService } from './message.service';
-import { Firestore, addDoc, collection, getDocs, query } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, getDocs, query, doc, deleteDoc } from '@angular/fire/firestore';
 
 
 @Injectable({ providedIn: 'root' })
@@ -34,10 +34,19 @@ export class HeroService {
 
   async getHeroesByFirebase() {
     const querySnapshot = await getDocs(query(collection(this.firestore, 'Heroes')));
-    console.log("Query Snapshot:", querySnapshot);
-    const heroesData = querySnapshot.docs.map((hero) => hero.data());
-    console.log("Heroes Data:", heroesData);
-    return heroesData;
+    const heroesDataArray: any = [];
+
+    querySnapshot.forEach((doc) => {
+      const heroData = {
+          docID: doc.id,
+          data: doc.data()
+      };
+      heroesDataArray.push(heroData);
+    });
+
+    console.log("Heroes Data Array:", heroesDataArray);
+
+    return heroesDataArray;
   }
 
 
@@ -89,6 +98,11 @@ export class HeroService {
       tap(_ => this.log(`deleted hero id=${id}`)),
       catchError(this.handleError<Hero>('deleteHero'))
     );
+  }
+
+  async deleteHeroByFirebase(id: any) {
+    console.log(id);
+    await deleteDoc(doc(this.firestore, 'Heroes', id))
   }
 
   /** PUT: update the hero on the server */

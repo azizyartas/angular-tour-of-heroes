@@ -7,7 +7,7 @@ import { HeroService } from '../hero.service';
   styleUrls: ['./heroes.component.scss']
 })
 export class HeroesComponent {
-  // heroes!: Hero[];
+  // heroes!: any;
   Heroes: any;
   id!: number;
   name!: string;
@@ -40,9 +40,8 @@ export class HeroesComponent {
   //     });
   // }
 
-  // delete(hero: Hero): void {
-  //   this.heroes = this.heroes.filter(h => h !== hero);
-  //   this.heroService.deleteHero(hero).subscribe();
-  // }
+  delete(id:any): void {
+    this.heroService.deleteHeroByFirebase(id);
+  }
 
 }
